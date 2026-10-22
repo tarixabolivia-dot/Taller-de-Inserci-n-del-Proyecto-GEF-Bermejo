@@ -1,0 +1,328 @@
+/* ==========================================================================
+   OTN-PB - Sistema de Sonido Ambiental de Ríos y Naturaleza
+   ========================================================================== */
+
+/* Botón Flotante del Reproductor Ambient */
+.river-audio-float-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    left: auto;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #0077b6, #0096c7);
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 18px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0, 119, 182, 0.4);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none !important;
+}
+
+.river-audio-float-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 28px rgba(0, 119, 182, 0.55);
+    background: linear-gradient(135deg, #0096c7, #03045e);
+    color: #ffffff;
+}
+
+.river-audio-float-btn.is-playing {
+    background: linear-gradient(135deg, #0284c7, #0ea5e9);
+    box-shadow: 0 8px 24px rgba(14, 165, 233, 0.5);
+}
+
+.river-audio-float-btn.is-muted {
+    background: linear-gradient(135deg, #64748b, #475569);
+    box-shadow: 0 6px 18px rgba(71, 85, 105, 0.3);
+    opacity: 0.85;
+}
+
+/* Animación de Ondas de Sonido (Equalizer) */
+.river-audio-eq {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 16px;
+    width: 18px;
+}
+
+.river-audio-eq span {
+    width: 3px;
+    background-color: #ffffff;
+    border-radius: 3px;
+    height: 4px;
+    transition: height 0.2s ease;
+}
+
+.river-audio-float-btn.is-playing .river-audio-eq span:nth-child(1) {
+    animation: riverAudioEq 1.2s infinite ease-in-out;
+}
+.river-audio-float-btn.is-playing .river-audio-eq span:nth-child(2) {
+    animation: riverAudioEq 0.8s infinite ease-in-out 0.2s;
+}
+.river-audio-float-btn.is-playing .river-audio-eq span:nth-child(3) {
+    animation: riverAudioEq 1.5s infinite ease-in-out 0.4s;
+}
+
+.river-audio-float-btn.is-muted .river-audio-eq span {
+    height: 3px !important;
+    background-color: #cbd5e1;
+    animation: none !important;
+}
+
+@keyframes riverAudioEq {
+    0%, 100% { height: 4px; }
+    50% { height: 16px; }
+}
+
+/* Botón secundario para ajustar volumen */
+.river-audio-settings-btn {
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    color: #ffffff;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    margin-left: 2px;
+    transition: background 0.2s;
+}
+
+.river-audio-settings-btn:hover {
+    background: rgba(255, 255, 255, 0.45);
+}
+
+/* Modal / Panel de Control de Sonido Ambient */
+.river-audio-panel {
+    position: fixed;
+    bottom: 85px;
+    right: 25px;
+    left: auto;
+    z-index: 99999;
+    width: 330px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 119, 182, 0.18);
+    box-shadow: 0 16px 40px rgba(0, 24, 69, 0.22);
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.river-audio-panel.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.river-audio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0f2fe;
+}
+
+.river-audio-header h6 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #03045e;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.river-audio-close {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.river-audio-close:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+/* Master Play Switch */
+.river-audio-master-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+}
+
+.river-audio-master-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0284c7;
+}
+
+/* Switch UI */
+.river-audio-switch {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 24px;
+}
+
+.river-audio-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.river-audio-slider-round {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #cbd5e1;
+    transition: .3s;
+    border-radius: 24px;
+}
+
+.river-audio-slider-round:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .river-audio-slider-round {
+    background-color: #0284c7;
+}
+
+input:checked + .river-audio-slider-round:before {
+    transform: translateX(22px);
+}
+
+/* Controles individuales de sonido */
+.river-audio-track {
+    margin-bottom: 14px;
+}
+
+.river-audio-track-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 6px;
+}
+
+.river-audio-range {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #e2e8f0;
+    border-radius: 4px;
+    outline: none;
+}
+
+.river-audio-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #0284c7;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
+    transition: transform 0.1s ease;
+}
+
+.river-audio-range::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* Presets rápidos */
+.river-audio-presets {
+    display: flex;
+    gap: 6px;
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.river-audio-preset-btn {
+    flex: 1;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 6px 4px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #475569;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.river-audio-preset-btn:hover,
+.river-audio-preset-btn.active {
+    background: #e0f2fe;
+    border-color: #38bdf8;
+    color: #0369a1;
+    font-weight: 600;
+}
+
+/* Badge indicativo */
+.river-audio-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 576px) {
+    .river-audio-float-btn {
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        right: 14px;
+        left: auto;
+        padding: 7px 12px;
+        font-size: 11.5px;
+        border-radius: 30px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    }
+    .river-audio-panel {
+        left: 12px;
+        right: 12px;
+        width: auto;
+        bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+    }
+}
